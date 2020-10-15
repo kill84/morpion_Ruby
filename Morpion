@@ -1,0 +1,9 @@
+1. Créer 2 HumanPlayer (2 classes séparées ou une seule ?)
+2.a Créer une Array (Class: Board) représentant le plateau de jeu
+2.b Class Case [A1, A2, A3, B1, B2, B3, C1, C2, C3]
+3. Class Game (While Array is not full || is_winner? (def à créer pour checker s'il y a un vainqueur) )
+        def => is_winner?
+        def => result
+        def => new_game?
+4. Application => va lancer le jeu
+5. Show => va montrer le plateau à chaque tour
