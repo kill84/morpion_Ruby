@@ -11,27 +11,21 @@ require 'show'
 
 
 class Application
+
   def perform
-    # TO DO : méthode qui initialise le jeu puis contient des boucles while pour faire tourner le jeu
-    #tant que la partie n'est pas terminée.
-
-    game = Game.new
-  while game.check_token == true
-    while game.is_the_game_stop? == false
-    system('clear')
-    game.turn
-    game.switch_turn
+    game = Game.new # pour lancer un nouveau jeu
+    while game.check_token == true # check si les token (qui permettent de relancer une partie) sont bien À 1. Sinon fin du jeu.
+      while game.is_the_game_stop? == false # check les conditions pour arrêter le jeu (un gagnant ou bien plateau rempli)
+        system('clear') # permet de jouer à chaque fois sur un terminal vide, avec impression de remplir le tableau au fur et À mesure
+        game.turn # permet de demander au joueur ce qu'il veut jouer et appliquer son choix
+        game.switch_turn # permet de changer d'utilisateur
+      end
+      game.switch_turn # permet de changer d'utilisateur pour montrer le bon gagnant
+      game.end # permet de montrer le bon gagnant (ou match nul)
+      game.new_round # permet de demander si on veut lancer une nouvelle partie
     end
-    game.switch_turn
-    game.end
-    game.new_round
   end
-end
-
-
-
 
 end
-
 
 Application.new.perform

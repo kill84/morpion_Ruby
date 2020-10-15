@@ -1,8 +1,10 @@
-
+require 'welcomepage'
 class Game
-  #TO DO : la classe a plusieurs attr_accessor: le current_player (égal à un objet Player), le status (en cours, nul ou un objet Player s'il gagne), le Board et un array contenant les 2 joueurs.
+
   attr_accessor :current_player, :status, :board, :array_players
-  def initialize
+
+  def initialize # initialisation de la partie avec les 2 joueurs et leur symbole
+    welcome = Welcome.new
     puts "Salut et bienvenue dans notre super jeu de morpion !"
     sleep (1.00)
     puts "Le morpion nécessite 2 joueurs"
@@ -28,15 +30,12 @@ class Game
     $token = 1
   end
 
-  def turn
-    #TO DO : méthode faisant appelle aux méthodes des autres classes (notamment à l'instance de Board).
-    #Elle affiche le plateau, demande au joueur ce qu'il joue, vérifie si un joueur a gagné,
-    #passe au joueur suivant si la partie n'est pas finie.
+  def turn # permet de demander au joueur ce qu'il veut jouer et appliquer son choix
     @board.show
     @board.menu_choice
   end
 
-  def check_token
+  def check_token # pour savoir si on commence une nouvelle partie ou pas
       if $token == 1
         true
       else
@@ -44,27 +43,36 @@ class Game
       end
   end
 
-  def new_round
-    puts "Top ! Souhaitez-vous faireune nouvelle partie ? (Répondez oui ou non)"
+  def new_round # pour demander si on veut faire une nouvelle partie
+    puts "Top ! Souhaitez-vous faire une nouvelle partie ? (oui/non, merci)"
     print "> "
     rep = gets.chomp
+    until rep == "oui" || rep =="non, merci"
+      puts "On t'avait dit de dire oui ou non, merci !"
+      print "> "
+      rep = gets.chomp
+    end
       if rep == "oui"
-    @board = Board.new
-    $token = 1
-  elsif rep == "non"
-    puts "OK ! À tantôt !"
-    $token = 0
-  else
-    puts "On t'avait dit de dire oui ou non !"
-    $token = 0
-  end
-  end
+        @board = Board.new
+        $token = 1
+      else
+        sleep(1.50)
+        puts""
+        puts "Voilà !"
+        sleep (1.00)
+        puts""
+        puts "Allez... OK."
+        sleep (1.00)
+        puts "A tantôt !"
+        sleep(2.00)
+        $token = 0
+        puts""
+      end
+    end
 
-
-  def is_the_game_stop?
+  def is_the_game_stop? # pour déterminer si la partie arrive à la fin ou pas
     if board.is_victory? == false
       return false
-
     elsif board.is_victory? == nil
       return true
     else
@@ -73,17 +81,17 @@ class Game
   end
 
   def end
-    board.show
+    board.show_if_a_win
     if board.is_victory? == true
-    puts "#{$current_player.name} a gagné bande de ba**** !!!"
-    sleep (1.35)
-    require 'bananagif'
+      puts "#{$current_player.name} a gagné !!! QUELLE PARTIE MAGNIFIQUE !!"
+      sleep (1.35)
+      require 'bananagif'
     else
-      puts "Match nul bitches"
+      puts "Match nul, dommage !"
     end
   end
 
-  def switch_turn
+  def switch_turn # pour changer d'utilisateur à la fin du tour
     case $current_player
     when @player_1
       $current_player = @player_2
